@@ -145,7 +145,8 @@
               // For example: e.features[0].properties.Name is retrieving information from the field Name in the original CSV.
               var description = `<h3>` + e.features[0].properties.ProgramAdministration + `</h3>` + `<h4>` + `<b>` + `Address: ` + `</b>` + e.features[0].properties.Address + ' <a href="https://maps.google.com/?q=' + e.features[0].properties.Address + '" target="blank">Get Directions</a>' + `</h4>` + '<h4>' + '<b>' + 'Description: ' + '</b>' + e.features[0].properties.ProgramDescription + ' <a href="' + e.features[0].properties.ProgramURL + '" target="_blank">Go To Webpage</a>' + '</h4>' + '<h4> + '<b>' + 'Contact Person: ' + '</b>' + e.features[0].properties.ContactName + '</h4>' + '<h4>' + '<b>' + 'Contact Phone Number: ' + '</b>' + '<a href="tel:' + e.features[0].properties.ContactPhone + '" target="_blank">' + e.features[0].properties.ContactPhone + '</a>' + '</h4>' +
               '<h4>' + '<b>' + 'Contact Email: ' + '</b>' + '<a href="mailto:' + e.features[0].properties.ContactEmail + '" target="_blank">' + e.features[0].properties.ContactEmail +'</a>' + '</h4>';
-
+              
+              
               // Ensure that if the map is zoomed out such that multiple
               // copies of the feature are visible, the popup appears
               // over the copy being pointed to.
