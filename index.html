@@ -59,6 +59,8 @@
       display: block;
       padding: 10px 3px 10px 10px;
       font-weight: 400;
+      white-space: initial;
+      overflow-wrap: break-word;
     }
 
     .mapboxgl-container {
@@ -90,12 +92,12 @@
           : url
       };
     };
-    //YOUR TURN: add your Mapbox token 
-    mapboxgl.accessToken = 'sk.eyJ1IjoibXN0cmVldHgiLCJhIjoiY2tmZDh5eHlpMGtjMjJ2cHQxOGRldjM5cCJ9.cBQUoLaZ8NiS9WwwswusNg'; //Mapbox token 
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoibXN0cmVldHgiLCJhIjoiY2tqcTBkZWlvMG5zZTJxbW5rNWpubnQ1NyJ9.MINNHo9CcqRxgZ61zTxwRg'; //Mapbox token
     var map = new mapboxgl.Map({
       container: 'map', // container id
       style: 'mapbox://styles/mapbox/streets-v11', //stylesheet location
-      center: [-122.411464, 37.7852299], // starting position
+      center: [-100.4458825, 39.7837304], // starting position
       zoom: 10,// starting zoom
       transformRequest: transformRequest
     });
@@ -104,11 +106,10 @@
       $.ajax({
         type: "GET",
         //YOUR TURN: Replace with csv export link
-        url: 'https://docs.google.com/spreadsheets/d/1QDq8ksHUKJ1lI16mVtdS-4y067_uT_RnqwpZLZLHlBg/edit?usp=sharing',
+        url: 'https://docs.google.com/spreadsheets/d/1bMslHNsMaUynTEmx49SeeoFf8ff8LVghYI6ZBdvgewo/gviz/tq?tqx=out:csv&sheet=Map',
         dataType: "text",
         success: function (csvData) { makeGeoJSON(csvData); }
       });
-
 
 
       function makeGeoJSON(csvData) {
@@ -119,7 +120,7 @@
         }, function (err, data) {
           map.on('load', function () {
 
-            //Add the the layer to the map 
+            //Add the the layer to the map
             map.addLayer({
               'id': 'csvData',
               'type': 'circle',
@@ -129,7 +130,7 @@
               },
               'paint': {
                 'circle-radius': 5,
-                'circle-color': "purple"
+                'circle-color': "red"
               }
             });
 
@@ -139,10 +140,11 @@
             map.on('click', 'csvData', function (e) {
               var coordinates = e.features[0].geometry.coordinates.slice();
 
-              //set popup text 
-              //You can adjust the values of the popup to match the headers of your CSV. 
-              // For example: e.features[0].properties.Name is retrieving information from the field Name in the original CSV. 
-              var description = `<h3>` + e.features[0].properties.ContactName + `</h3>` + `<h4>` + `<b>` + `Address: ` + `</b>` + e.features[0].properties.FullAddress + `</h4>` + `<h4>` + `<b>` + `Phone: ` + `</b>` + e.features[0].properties.ContactPhoneNumber + `</h4>`;
+              //set popup text
+              //You can adjust the values of the popup to match the headers of your CSV.
+              // For example: e.features[0].properties.Name is retrieving information from the field Name in the original CSV.
+              var description = `<h3>` + e.features[0].properties.Program_Administration + `</h3>` + `<h4>` + `<b>` + `Address: ` + `</b>` + e.features[0].properties.Address + ' <a href="https://maps.google.com/?q=' + e.features[0].properties.Address + '" target="blank">Get Directions</a>' + `</h4>` + <h4>` + `<b>` + `Description: ` + `</b>` + e.features[0].properties.Program_Description + ' <a href="' + e.features[0].properties.Program_URL + '" target="_blank">Go To Webpage</a>' + `</h4>` + `<h4>` + `<b>` + `Contact Person: ` + `</b>` + e.features[0].properties.Contact_Name + `</h4>` + `<h4>` + `<b>` + `Contact Phone #: ` + `</b>` + '<a href="tel:' + e.features[0].properties.Contact_Phone + '" target="_blank">' + e.features[0].properties.Contact_Phone +'</a>' + `</h4>` +
+              `<h4>` + `<b>` + `Contact Email: ` + `</b>` + '<a href="mailto:' + e.features[0].properties.Contact_Email + '" target="_blank">' + e.features[0].properties.Contact_Email +'</a>' + `</h4>`
 
               // Ensure that if the map is zoomed out such that multiple
               // copies of the feature are visible, the popup appears
