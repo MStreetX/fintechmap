@@ -1,1 +1,1 @@
-# fintechmap
+# Capital Resources Map
